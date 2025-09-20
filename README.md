@@ -1,2 +1,2 @@
 # hospital-management-system
-This is my first academic and non academic project.
+This is my first academic  project.
