@@ -138,6 +138,14 @@ body{
   font-family: Arial, Helvetica, sans-serif;
   margin-bottom:10px ;
 }
+
+.gyaan{
+  color: #9b9b9b;
+  font-size: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom:10px ;
+}
+
 .home-p2{
   color: #20457c;
   font-size: 48px;
@@ -161,7 +169,7 @@ Login temp */
   width: 60%;
   margin: auto;
   height: 500px;
-  border: 1px solid rgb(31, 47, 216);
+
 
   
 }
