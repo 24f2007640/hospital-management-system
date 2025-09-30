@@ -145,3 +145,33 @@ body{
   margin-top: 10px;
   line-height: 1.1;
 }
+
+/* 
+Login temp */
+
+
+#main,canvas{
+  border: 1px solid rgb(216, 31, 31);
+  margin-top: 0px;
+  
+
+}
+
+#canvas{
+  width: 60%;
+  margin: auto;
+  height: 500px;
+  border: 1px solid rgb(31, 47, 216);
+
+  
+}
+
+#form-body{
+  width: 330px;
+  height: 420px;
+  border: 2px solid grey;
+  margin: auto;
+  margin-top: 30px;
+  padding: 30px;
+  border-radius: 5px;
+}

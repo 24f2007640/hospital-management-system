@@ -3,9 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Register</title>
+     <link rel="stylesheet" href="/statics/style.css">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+     <style>
+        .navbar{
+            padding: 0px 40px;
+        }
+     </style>
 </head>
 <body>
-    Register
+    <div>
+        <nav class="navbar">
+            <div class="navbar-left">
+                <a class="logo">
+                    <img src="/photo/hospital_logo.png" alt="Logo">
+                </a>
+
+                <a href="home.html">
+                <button class="home">Home</button>
+                </a>
+            </div>
+
+            <div class="navbar-center">
+                <span class="system-name">VitalCare Hospital</span>
+            </div>
+
+            <div class="navbar-right">
+                <a href="#" >
+                    <button class="appointment">Book Appointment</button>
+                </a>
+                <a href="login.html">
+                    <button class="log">login</button>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <div id="main">
+        <div id="canvas">
+            <div id="form-body">
+                <h1>Register Form</h1>
+                <form action="" method="post">
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="name">
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email">
+                </div>
+
+                <div class="mb-3">
+                    <label for="pass" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="pass">
+                </div>
+
+                <div class="text-center">
+                    <input type="submit" class="btn btn-primary" value="Register"> 
+                </div>
+
+                </form>
+                
+
+            </div>
+        </div>
+    </div>
 </body>
 </html>
