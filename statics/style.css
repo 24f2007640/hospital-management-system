@@ -159,8 +159,10 @@ Login temp */
 
 
 #main,canvas{
-  border: 1px solid rgb(216, 31, 31);
+  border: 1px solid #d81f1f;
   margin-top: 0px;
+  background-color: rgb(32, 43, 52);
+  
   
 
 }
@@ -168,18 +170,21 @@ Login temp */
 #canvas{
   width: 60%;
   margin: auto;
-  height: 500px;
-
+  height: 600px;
+  background-color: rgb(32, 43, 52);
+  
 
   
 }
 
 #form-body{
-  width: 330px;
-  height: 420px;
-  border: 2px solid grey;
+  width: 380px;
+  height: 470px;
+  border: 2px solid black;
   margin: auto;
-  margin-top: 30px;
+  margin-top: 70px;
   padding: 30px;
-  border-radius: 5px;
+  border-radius: 15px;
+  background-color:white ;
+
 }
