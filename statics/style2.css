@@ -1,0 +1,26 @@
+
+body {
+    background-color: #2d4ce668;
+    padding: 20px;
+}
+
+    #main{
+    width:100%;
+    height: auto;
+    padding: 40px 50px 40px 132px;
+    background-color: rgb(90, 16, 16);
+    border-radius: 50px;
+} 
+
+.container {
+    max-width: 1250px;
+    width: 99%;
+    height: 600px;
+    border: 10px solid #dee2e6;
+    padding: 20px;
+    margin: 3px 4px 3px 4px;
+    background-color: #51db8d;
+    border-radius:25px;
+    color: rgb(199, 4, 50);
+}
+

@@ -161,7 +161,7 @@ Login temp */
 #main,canvas{
   border: 1px solid #d81f1f;
   margin-top: 0px;
-  background-color: rgb(32, 43, 52);
+  background-color: rgb(250, 244, 244);
   
   
 
@@ -171,9 +171,7 @@ Login temp */
   width: 60%;
   margin: auto;
   height: 600px;
-  background-color: rgb(32, 43, 52);
-  
-
+  background-color: #f8f9fa;
   
 }
 
