@@ -20,13 +20,13 @@ def login():
             if this_user.password == pwd:
                 
                 if this_user.type == "manager":
-                    return redirect('/Adm_Admin-Welcome.html')
+                    return redirect('/Adm_Admin-Welcome')
                     
                 elif this_user.type == "doctor":
-                    return redirect('/Doc_Welcome-doc.html')
+                    return redirect('/Doc_Welcome-doc')
                     
                 elif this_user.type == "patient":
-                    return redirect('/Pat_Welcome.html')
+                    return redirect('/Pat_Welcome')
 
             else:
                 return render_template("login.html", error="Incorrect password")

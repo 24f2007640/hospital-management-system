@@ -3,65 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pat_History</title>
-    <link rel="stylesheet" href="/statics/style2.css">
+    <title>Patient History</title>
+    <link rel="stylesheet" href="/statics/style.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-     rel="stylesheet" 
-     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
-     crossorigin="anonymous">
+          rel="stylesheet" 
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+          crossorigin="anonymous">
+    
+
 
 </head>
 <body>
+      <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container-fluid">
 
-<div id="main">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-5">
-            <h2 class="mb-1">Patient History</h2>
-            <a href="#" class="btn btn-outline-primary">back</a>
+            <a class="navbar-brand" href="home.html">
+                <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                VitalCare Hospital
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">Home</a>
+                    </li>
+<!--                     
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Manage Doctors</a>
+                    </li> -->
+                </ul>
+
+
+                <div class="d-flex">
+                    <a href="/logout" class="btn btn-outline-danger">Logout</a>
+                </div>
+            </div>
         </div>
+    </nav>
 
-        <div class="patient-info mb-4">
-            <p><strong>Patient Name:</strong> Mr. abcde</p>
-            <p><strong>Doctors' Name:</strong> Dr. pqrst</p>
-            <p><strong>Department:</strong> Cardiology</p>
-        </div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered text-center">
-                <thead class="table-light">
-                    <tr>
-                        <th>Visit No.</th>
-                        <th>Visit Type</th>
-                        <th>Tests Done</th>
-                        <th>Diagnosis</th>
-                        <th>Prescription</th>
-                        <th>Medicines</th>
-                    </tr>
-                </thead>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-11"> <div class="card shadow-sm border-0" style="border-radius: 1rem;">
+                <div class="card-body p-4 p-md-5">
 
-                <tbody>
-                    <tr>
-                        <td>1.</td>
-                        <td>In-person</td>
-                        <td>ECG</td>
-                        <td>Abnormal Heartbeats</td>
-                        <td>exercise daily</td>
-                        <td>Medicine 1</td>
-                    </tr>
+                    <div class="d-flex justify-content-between align-items-center mb-5">
+                        <h2 class="mb-1">Patient History</h2>
+                        <a href="#" class="btn btn-outline-primary">Back</a>
+                    </div>
 
-                    <tr>
-                        <td>&#8942;</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+                    <div class="patient-info mb-4">
+                        <p><strong>Patient Name:</strong> Mr. abcde</p>
+                        <p><strong>Doctors' Name:</strong> Dr. pqrst</p>
+                        <p><strong>Department:</strong> Cardiology</p>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Visit No.</th>
+                                    <th>Visit Type</th>
+                                    <th>Tests Done</th>
+                                    <th>Diagnosis</th>
+                                    <th>Prescription</th>
+                                    <th>Medicines</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>In-person</td>
+                                    <td>ECG</td>
+                                    <td>Abnormal Heartbeats</td>
+                                    <td>exercise daily</td>
+                                    <td>Medicine 1</td>
+                                </tr>
+
+                                <tr>
+                                    <td>&#8942;</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
-</div>     
+</div>
+
 </body>
 </html>

@@ -3,61 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Home - VitalCare Hospital</title>
     
-    <link rel="stylesheet" href="/statics/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <style>
+       
+        body {
+            background-color: #f0f2f5; 
+        }
+    </style>
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="navbar-left">
-
-            <a class="logo">
-                <img src="/photo/hospital_logo.png" alt="Logo">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="home.html">
+                <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                VitalCare Hospital
             </a>
-
-             <a href="home.html">
-            <button class="home">Home</button>
-            </a>
-            
-        </div>
-
-        <div class="navbar-center">
-            <span class="system-name">VitalCare Hospital</span>
-        </div>
-
-        <div class="navbar-right">
-            <a href="#" >
-                <button class="appointment">Book Appointment</button>
-            </a>
-            <a href="login.html">
-                <button class="log">login</button>
-            </a>
-            <a href="register.html">
-                <button class="register">Registration</button>
-            </a>
-            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="home.html">Home</a>
+                    </li>
+                </ul>
+                <div class="d-flex gap-2">
+                    <a href="#" class="btn btn-danger">Book Appointment</a>
+                    <a href="login.html" class="btn btn-outline-primary">Login</a>
+                    <a href="register.html" class="btn btn-outline-primary">Registration</a>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <div class="white-bg home-section">
-        <div class="home-text">
-            <p class="home-p1">Your  Health is Our <br> Mission</p>
-            <p class="home-p2">Building <br> Healthier Bharat </p>
-            <hr>
-            <p class="gyaan">We spend years mastering the science—the complex pathways, the drug interactions, the surgical precision.
-                 Yet, the true art of medicine is learned not in a lecture hall, but at the bedside. <br><br>It is the art of listening to unspoken fears,
-                  of offering hope when data offers none, and of seeing the whole person beyond the chart. This human connection, this shared journey
-                   through vulnerability, is often the most potent medicine we can ever prescribe.</p>
-                   <hr>
-        </div>
+    <div class="container my-5">
+        <div class="bg-white p-4 p-md-5 rounded-3 shadow-sm">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <p class="h4 text-muted">Your Health is Our Mission</p>
+                    
+                    <h1 class="display-4 fw-bold">Building Healthier Bharat</h1>
+                    
+                    <hr class="my-4">
+                    
+                    <p class="lead">
+                        We spend years mastering the science—the complex pathways, the drug interactions, the surgical precision.
+                        Yet, the true art of medicine is learned not in a lecture hall, but at the bedside.
+                    </p>
+                    <p>
+                        It is the art of listening to unspoken fears,
+                        of offering hope when data offers none, and of seeing the whole person beyond the chart. This human connection, this shared journey
+                        through vulnerability, is often the most potent medicine we can ever prescribe.
+                    </p>
+                    <hr class="my-4">
+                </div>
 
-        <div class="home-photo">
-            <img src="/photo/group photo.jpg" alt="Logo">
+                <div class="col-lg-5">
+                    <img src="/photo/group photo.jpg" alt="Group photo of hospital staff" class="img-fluid rounded">
+                </div>
+            </div>
         </div>
     </div>
-
-
-</body>
+    
+    </body>
 </html>

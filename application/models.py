@@ -23,6 +23,7 @@ class Doctor(db.Model):
     phone = db.Column(db.String(20))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
     
+    
     # Back-reference to the User model
     user = db.relationship('User', back_populates='doctor_profile')
     

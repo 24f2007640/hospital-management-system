@@ -4,84 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-     <link rel="stylesheet" href="/statics/style.css">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/statics/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
     <style>
-        .navbar{
-            padding: 0px 40px;
+        
+        body {
+            background-color: #f0f2f5; 
         }
-        .register{
-            width: 120px;
-        }
-
-        #form-body{
-            height: 350px;
-        }
-
-        #canvas{
-            width: ;
-            height: 450px;
-        }
-     </style>
+    </style>
 </head>
 <body>
-    <div>
-        <nav class="navbar">
-            <div class="navbar-left">
-                <a class="logo">
-                    <img src="/photo/hospital_logo.png" alt="Logo">
-                </a>
 
-                <a href="home.html">
-                <button class="home">Home</button>
-                </a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="home.html">
+                <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                VitalCare Hospital
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">Home</a>
+                    </li>
+                </ul>
+                <div class="d-flex gap-2">
+                    <a href="#" class="btn btn-danger">Book Appointment</a>
+                    <a href="/register" class="btn btn-primary">Registration</a>
+                </div>
             </div>
+        </div>
+    </nav>
 
-            <div class="navbar-center">
-                <span class="system-name">VitalCare Hospital</span>
-            </div>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5 col-xl-4">
 
-            <div class="navbar-right">
-                <a href="#" >
-                    <button class="appointment">Book Appointment</button>
-                </a>
-                <a href="register.html">
-                    <button class="register">Registration</button>
-                </a>
-            </div>
-        </nav>
-    </div>
+                <div class="card shadow-sm border-0" style="border-radius: 1rem;">
+                    <div class="card-body p-4 p-md-5">
 
-    <div id="main">
-        <div id="canvas">
-            <div id="form-body">
-                <h1>Login Form</h1>
-                <form action="" method="post">
+                        <h2 class="h4 mb-4 text-center">Login</h2>
+                        
+                        <form action="/login" method="post">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="name" name="username">
+                            </div>
 
-                <div class="mb-3">
-                    <label for="name" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="name">
+                            <div class="mb-3">
+                                <label for="pass" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="pass" name="pwd">
+                            </div>
+
+                            <div class="d-grid mt-4">
+                                <input type="submit" class="btn btn-primary" value="Login"> 
+                            </div>
+                            
+                            <div class="text-center mt-3">
+                                Not registered? <a href="/register">Register</a>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
-
-                <div class="mb-3">
-                    <label for="pass" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="pass">
-                </div>
-
-                <div class="text-center">
-                    <input type="submit" class="btn btn-primary" value="Login"> 
-                    <br>
-                    <a>Not registered? <a href="/register.html">Register</a>
-                </div>
-                </div>
-
-                
-
-                </form>
-                
-
             </div>
         </div>
     </div>
-</body>
+    
+    </body>
 </html>
