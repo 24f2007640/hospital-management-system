@@ -9,68 +9,56 @@
           rel="stylesheet" 
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
           crossorigin="anonymous">
-    
     <style>
         body {
             background-color: #f0f2f5; 
         }
     </style>
-
 </head>
 <body>
-      <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('doctor_dashboard', doctor_id=doctor.id) }}">
+            <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+            VitalCare Hospital
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <a class="navbar-brand" href="home.html">
-                <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-                VitalCare Hospital
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="home.html">Home</a>
-                    </li>
-                    
-                    <!-- <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Manage Doctors</a>
-                    </li> -->
-                </ul>
-
-
-                <div class="d-flex">
-                    <a href="/logout" class="btn btn-outline-danger">Logout</a>
-                </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('doctor_dashboard', doctor_id=doctor.id) }}">Home</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    
 <div id="main">
     <div class="container p-4 mt-5 mb-5">
         <div class="row justify-content-center g-3">
-            <div class="col-md-10"> <div class="card shadow-sm border-0" style="border-radius: 1rem;">
+            <div class="col-md-10">
+                <div class="card shadow-sm border-0" style="border-radius: 1rem;">
                     <div class="card-body p-4 p-md-5">
-
-                        <h3 class="card-title fw-bold mb-1">Dr. mnop</h3>
-                        <p class="card-text mb-0">MBBS, DM - Medical Oncology</p>
-                        <p class="card-text mb-0">Medical Oncologist</p>
-                        <p class="card-text mb-2">20 Years Experience Overall<br>(11 years as specialist)</p>
+                        <h3 class="card-title fw-bold mb-1">Dr. {{ doctor.name }}</h3>
+                        <p class="card-text mb-0">{{ doctor.qualification }}</p>
+                        <p class="card-text mb-0">{{ doctor.specialty }}</p>
+                        <p class="card-text mb-2">{{ doctor.years_experience }} Years Experience Overall<br>({{ doctor.years_specialist }} years as specialist)</p>
 
                         <hr class="my-4">
 
-                        <p class="card-text">Dr. mnop is a Medical Oncologist in India and has an experience of 20 years in this field.</p>
-                        
-                        <div class="d-flex justify-content-end gap-2 mt-4">
-                            <button type="button" class="btn btn-outline-primary px-4">Check Availability</button>
-                            <button type="button" class="btn btn-outline-secondary px-4">Go Back</button>
-                        </div>
+                        <p class="card-text">{{ doctor.about }}</p>
 
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <a href="{{ url_for('doctor_availability', doctor_id=doctor.id) }}" class="btn btn-outline-primary px-4">Check Availability</a>
+                            <a href="{{ url_for('doctor_dashboard', doctor_id=doctor.id) }}" class="btn btn-outline-secondary px-4">Go Back</a>
+                        </div>
                     </div>
                 </div>
             </div>

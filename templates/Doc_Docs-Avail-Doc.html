@@ -9,16 +9,12 @@
           rel="stylesheet" 
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
           crossorigin="anonymous">
-    
     <style>
-
-       
         .btn-check:checked + .btn-toggle-color {
             background-color: #198754; 
             border-color: #198754;
             color: #fff;
         }
-
         .btn-check:checked + .btn-toggle-color:hover {
             background-color: #157347; 
             border-color: #146c43;
@@ -27,115 +23,72 @@
     </style>
 </head>
 <body>
-
-      <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container-fluid">
-
-            <a class="navbar-brand" href="home.html">
-                <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-                VitalCare Hospital
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="home.html">Home</a>
-                    </li>
-                    
-                    <!-- <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Manage Doctors</a>
-                    </li> -->
-                </ul>
-
-
-                <div class="d-flex">
-                    <a href="/logout" class="btn btn-outline-danger">Logout</a>
-                </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('doctor_dashboard', doctor_id=doctor.id) }}">
+            <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+            VitalCare Hospital
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('doctor_dashboard', doctor_id=doctor.id) }}">Home</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
+
 
 
 <div id="main">
-   
     <div class="container mt-5 mb-5">
         <div class="row justify-content-center">
-            <div class="col-lg-10"> 
+            <div class="col-lg-10">
                 <div class="card shadow-sm border-dark border-2 rounded-3">
                     <div class="card-body p-4 p-md-5">
+
+
                         
-                       
-                        <form action="#" method="post">
+                        <form action="{{ url_for('doctor_availability', doctor_id=doctor.id) }}" method="post">
                             <h2 class="card-title mb-4">Doctor's Availability</h2>
                             <ul class="list-group list-group-flush">
-                                
+                                {% for item in date_slots %}
                                 <li class="list-group-item py-3 px-0">
                                     <div class="row g-3 align-items-center">
                                         <div class="col-md-4">
                                             <div class="p-2 border border-dark bg-primary-subtle rounded text-center">
-                                                21/01/2025
+                                                {{ item['date'].strftime("%d/%m/%Y") }}
                                             </div>
                                         </div>
+                                        {% for slot in item['slots'] %}
                                         <div class="col-md-4">
-                                            <input type="checkbox" class="btn-check" id="time-21-am" autocomplete="off">
-                                            <label class="btn btn-outline-success w-100 btn-toggle-color" for="time-21-am">08:00 - 12:00 am</label>
+                                            <input type="checkbox"
+                                                   class="btn-check"
+                                                   name="availabilities"
+                                                   id="slot-{{ item['date'] }}-{{ loop.index }}"
+                                                   value="{{ item['date'] }}|{{ slot }}"
+                                                   autocomplete="off"
+                                                   {% if slot in item['selected'] %}checked{% endif %}>
+                                            <label class="btn btn-outline-success w-100 btn-toggle-color"
+                                                   for="slot-{{ item['date'] }}-{{ loop.index }}">
+                                                {{ slot }}
+                                            </label>
                                         </div>
-                                        <div class="col-md-4">
-                                            <input type="checkbox" class="btn-check" id="time-21-pm" autocomplete="off">
-                                            <label class="btn btn-outline-success w-100 btn-toggle-color" for="time-21-pm">04:00 - 9:00 pm</label>
-                                        </div>
+                                        {% endfor %}
                                     </div>
                                 </li>
-
-                                <li class="list-group-item py-3 px-0">
-                                    <div class="row g-3 align-items-center">
-                                        <div class="col-md-4">
-                                            <div class="p-2 border border-dark bg-primary-subtle rounded text-center">
-                                                22/01/2025
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="checkbox" class="btn-check" id="time-22-am" autocomplete="off">
-                                            <label class="btn btn-outline-success w-100 btn-toggle-color" for="time-22-am">08:00 - 12:00 am</label>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="checkbox" class="btn-check" id="time-22-pm" autocomplete="off">
-                                            <label class="btn btn-outline-success w-100 btn-toggle-color" for="time-22-pm">04:00 - 9:00 pm</label>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item py-3 px-0">
-                                    <div class="row g-3 align-items-center">
-                                        <div class="col-md-4">
-                                            <div class="p-2 border border-dark bg-primary-subtle rounded text-center">
-                                                23/01/2025
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="checkbox" class="btn-check" id="time-23-am" autocomplete="off">
-                                            <label class="btn btn-outline-success w-100 btn-toggle-color" for="time-23-am">08:00 - 12:00 am</label>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="checkbox" class="btn-check" id="time-23-pm" autocomplete="off" checked> <!-- Example of a checked one -->
-                                            <label class="btn btn-outline-success w-100 btn-toggle-color" for="time-23-pm">04:00 - 9:00 pm</label>
-                                        </div>
-                                    </div>
-                                </li>
-                            
-                            </ul> 
-
+                                {% endfor %}
+                            </ul>
                             <div class="text-end mt-4">
-                                <button type="submit" class="btn btn-success px-4">
-                                    Save
-                                </button>
+                                <button type="submit" class="btn btn-success px-4">Save</button>
                             </div>  
-                        
                         </form> 
                     </div>
                 </div>

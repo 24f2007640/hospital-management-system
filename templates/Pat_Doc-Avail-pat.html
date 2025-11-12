@@ -1,131 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor's Availability</title>
-    <link rel="stylesheet" href="/statics/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
-          rel="stylesheet" 
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
-          crossorigin="anonymous">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor's Availability</title>
+    <link rel="stylesheet" href="/statics/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+          rel="stylesheet" 
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+          crossorigin="anonymous">
 </head>
 <body>
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container-fluid">
-
-            <a class="navbar-brand" href="home.html">
-                <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-                VitalCare Hospital
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="home.html">Home</a>
-                    </li>
-                    
-                    <!-- <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Manage Doctors</a>
-                    </li> -->
-                </ul>
-
-
-                <div class="d-flex">
-                    <a href="/logout" class="btn btn-outline-danger">Logout</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('doctor_dashboard', doctor_id=doctor.id) }}">
+            <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+            VitalCare Hospital
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('doctor_dashboard', doctor_id=doctor.id) }}">Home</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>
 
 <div id="main">
-    <div class="container mt-5 mb-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-9">
-                <div class="card shadow-sm border-dark border-2 rounded-3">
-                    <div class="card-body p-4 p-md-5">
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <div class="card shadow-sm border-dark border-2 rounded-3">
+                    <div class="card-body p-4 p-md-5">
 
-                        <h2 class="card-title mb-4">Doctor's Availability</h2>
+                        <h2 class="card-title mb-4">Doctor's Availability</h2>
 
-                        <form action="#" method="post">
-                            <ul class="list-group list-group-flush">
+                        <form action="{{ url_for('doctor_availability', doctor_id=doctor.id) }}" method="post">
+                            <ul class="list-group list-group-flush">
+                                {% for item in date_slots %}
+                                <li class="list-group-item py-3 px-0">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-4">
+                                            <div class="p-2 border border-dark bg-primary-subtle rounded text-center">
+                                                {{ item['date'].strftime("%d/%m/%Y") }}
+                                            </div>
+                                        </div>
+                                        {% for slot in item['slots'] %}
+                                        <div class="col-md-4">
+                                            <input type="checkbox"
+                                                   class="btn-check"
+                                                   name="availabilities"
+                                                   id="slot-{{ item['date'] }}-{{ loop.index }}"
+                                                   value="{{ item['date'] }}|{{ slot }}"
+                                                   autocomplete="off"
+                                                   {% if slot in item['selected'] %}checked{% endif %}>
+                                            <label class="btn btn-outline-success w-100 btn-toggle-color"
+                                                   for="slot-{{ item['date'] }}-{{ loop.index }}">
+                                                {{ slot }}
+                                            </label>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
 
-                                <li class="list-group-item py-3 px-0">
-                                    <div class="row g-3 align-items-center">
-                                        <div class="col-md-4">
-                                            <div class="p-2 border border-dark bg-primary-subtle rounded text-center">
-                                                21/01/2025
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="checkbox" class="btn-check" id="time-21-am" autocomplete="off">
-                                            <label class="btn btn-outline-success w-100" for="time-21-am">08:00 - 12:00 am</label>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="p-2 border border-danger text-danger rounded text-center">
-                                                04:00 - 9:00 pm
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item py-3 px-0">
-                                    <div class="row g-3 align-items-center">
-                                        <div class="col-md-4">
-                                            <div class="p-2 border border-dark bg-primary-subtle rounded text-center">
-                                                22/01/2025
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="checkbox" class="btn-check" id="time-22-am" autocomplete="off">
-                                            <label class="btn btn-outline-success w-100" for="time-22-am">08:00 - 12:00 am</label>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="checkbox" class="btn-check" id="time-22-pm" autocomplete="off">
-                                            <label class="btn btn-outline-success w-100" for="time-22-pm">04:00 - 9:00 pm</label>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item py-3 px-0">
-                                    <div class="row g-3 align-items-center">
-                                        <div class="col-md-4">
-                                            <div class="p-2 border border-dark bg-primary-subtle rounded text-center">
-                                                23/01/2025
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="p-2 border border-danger text-danger rounded text-center">
-                                                08:00 - 12:00 am
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="p-2 border border-danger text-danger rounded text-center">
-                                                04:00 - 9:00 pm
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-
-                            </ul> <div class="text-end mt-4">
-                                <button type="submit" class="btn btn-success px-4">
-                                    Book
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                            <div class="text-end mt-4">
+                                <button type="submit" class="btn btn-success px-4">
+                                    Book
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>

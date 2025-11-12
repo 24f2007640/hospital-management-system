@@ -16,7 +16,7 @@
    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container-fluid">
 
-            <a class="navbar-brand" href="home.html">
+            <a class="navbar-brand" href="/home">
                 <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
                 VitalCare Hospital
             </a>
@@ -30,7 +30,7 @@
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="home.html">Home</a>
+                        <a class="nav-link" href="/home">Home</a>
                     </li>
 
                     <!-- <li class="nav-item">
@@ -53,31 +53,51 @@
         <div class="row justify-content-center">
             <div class="col-lg-8"> <div class="card shadow-sm border-dark border-2 rounded-3">
                     <div class="card-body p-4 p-md-5">
-                        <h4 class="card-title mb-4">Add a new Doctor</h4>
-                        <form action="#" method="post">
-                            <div class="border border-secondary rounded-3 p-3 mb-4">
-                                
-                                <div class="mb-3">
-                                    <label for="fullName" class="form-label">Fullname</label>
-                                    <input type="text" class="form-control border-dark" id="fullName" placeholder="Enter full name">
-                                </div>
 
-                                <div class="mb-3">
-                                    <label for="specialization" class="form-label">Specialization/Department</label>
-                                    <input type="text" class="form-control border-dark" id="specialization" placeholder="e.g., Cardiology, Oncology">
-                                </div>
+            <h4 class="card-title mb-4">Add a new Doctor</h4>
+            <form action="/manager/add_doctor" method="post">
+                <div class="border border-secondary rounded-3 p-3 mb-4">
 
-                                <div class="mb-3">
-                                    <label for="experience" class="form-label">Experience (years)</label>
-                                    <input type="number" class="form-control border-dark" id="experience" placeholder="Enter years of experience">
-                                </div>
-                                
-                            </div>
-                            
-                            <div class="text-end">
-                                <button type="submit" class="btn btn-success px-4">Create</button>
-                            </div>
-                        </form>
+                <h4 class="h5 mt-3 border-bottom pb-2">Login Account Details</h4>
+                
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                
+
+                <h4 class="h5 mt-5 border-bottom pb-2">Doctor Profile Details</h4>
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                
+                <div class="mb-3">
+                    <label for="specialty" class="form-label">Specialization/Department</label>
+                    
+                    <input type="text" class="form-control" id="specialty" name="specialty" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="phone" name="phone">
+                </div>
+                
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <a href="/manager/dashboard" class="btn btn-secondary me-md-2">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+
+
+
+                </form>
 
                     </div>
                 </div>

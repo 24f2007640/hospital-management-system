@@ -13,118 +13,90 @@
 </head>
 <body>
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container-fluid">
-
-            <a class="navbar-brand" href="home.html">
-                <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-                VitalCare Hospital
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="home.html">Home</a>
-                    </li>
-                    
-                    <!-- <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Manage Doctors</a>
-                    </li> -->
-                </ul>
-
-
-                <div class="d-flex">
-                    <a href="/logout" class="btn btn-outline-danger">Logout</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('doctor_dashboard', doctor_id=doctor.id) }}">
+          <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+          VitalCare Hospital
+      </a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('doctor_dashboard', doctor_id=doctor.id) }}">Home</a>
+              </li>
+          </ul>
+          <div class="d-flex">
+              <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
+          </div>
+      </div>
+  </div>
+</nav>
 
 <div class="container mt-5 mb-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-11">
+  <div class="row justify-content-center">
+      <div class="col-lg-11">
+          <div class="card shadow-sm border-0" style="border-radius: 1rem;">
+              <div class="card-body p-4 p-md-5">
 
+                  <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+                      <h4 class="mb-0">Welcome Dr. {{ doctor.name }}</h4>
+                  </div>
 
-            <div class="card shadow-sm border-0" style="border-radius: 1rem;">
-                <div class="card-body p-4 p-md-5">
+                  <h4 class="mb-3">Upcoming Appointments</h4>
+                  <div class="table-responsive mb-4">
+                      <table class="table align-middle">
+                          <thead class="border-bottom border-dark">
+                              <tr>
+                                  <th scope="col">Sr No.</th>
+                                  <th scope="col">Patient Name</th>
+                                  <th scope="col">Patient History</th>
+                                  <th scope="col" class="text-center">Actions</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              {% for idx, appt in enumerate(appointments, start=1) %}
+                              <tr class="border-bottom border-secondary">
+                                  <td>{{ idx }}</td>
+                                  <td>{{ appt.patient.name }}</td>
+                                  <td>
+                                      <a href="{{ url_for('update_patient_history', doctor_id=doctor.id, patient_id=appt.patient.id) }}" class="btn btn-outline-primary btn-sm">Update</a>
+                                  </td>
+                                  <td class="text-center">
+                                      <div class="d-flex justify-content-center gap-2">
+                                          <a href="{{ url_for('complete_appointment', appt_id=appt.id) }}" class="btn btn-outline-success btn-sm">Mark as Complete</a>
+                                          <a href="{{ url_for('cancel_appointment', appt_id=appt.id) }}" class="btn btn-outline-danger btn-sm">Cancel</a>
+                                      </div>
+                                  </td>
+                              </tr>
+                              {% else %}
+                              <tr>
+                                  <td colspan="4" class="text-center">No upcoming appointments.</td>
+                              </tr>
+                              {% endfor %}
+                          </tbody>
+                      </table>
+                  </div>
 
-                    <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
-                        <h4 class="mb-0">Welcome Dr. Abcde</h4>
+                  <h4 class="mb-3">Assigned Patients</h4>
+                  <div class="list-group mb-4">
+                      {% for patient in patients %}
+                      <div class="list-group-item d-flex justify-content-between align-items-center">
+                          {{ patient.name }}
+                          <a href="{{ url_for('patient_history', patient_id=patient.id) }}" class="btn btn-outline-primary btn-sm">View</a>
+                      </div>
+                      {% else %}
+                      <div class="list-group-item">No assigned patients.</div>
+                      {% endfor %}
+                  </div>
 
-                    </div>
+                  <div class="text-end mt-4">
+                      <a href="{{ url_for('doctor_availability', doctor_id=doctor.id) }}" class="btn btn-success px-4">Provide Availability</a>
+                  </div>
 
-                    <h4 class="mb-3">Upcoming Appointments</h4>
-                    <div class="table-responsive mb-4">
-                        <table class="table align-middle">
-                            <thead class="border-bottom border-dark">
-                                <tr>
-                                    <th scope="col">Sr No.</th>
-                                    <th scope="col">Patient Name</th>
-                                    <th scope="col">Patient History</th>
-                                    <th scope="col" class="text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="border-bottom border-secondary">
-                                    <td>1001.</td>
-                                    <td>Mr. abcde</td>
-                                    <td>
-                                        <button class="btn btn-outline-primary btn-sm">Update</button>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <button class="btn btn-outline-success btn-sm">Mark as Complete</button>
-                                            <button class="btn btn-outline-danger btn-sm">Cancel</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="border-bottom border-secondary">
-                                    <td>1002.</td>
-                                    <td>Miss. Pqrst</td>
-                                    <td>
-                                        <button class="btn btn-outline-primary btn-sm">Update</button>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <button class="btn btn-outline-success btn-sm">Mark as Complete</button>
-                                            <button class="btn btn-outline-danger btn-sm">Cancel</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <h4 class="mb-3">Assigned Patients</h4>
-                    
-                    
-                    <div class="list-group mb-4">
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            Mr. abcde
-                            <a href="#" class="btn btn-outline-primary btn-sm">View</a>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            Miss. Pqrst
-                            <a href="#" class="btn btn-outline-primary btn-sm">View</a>
-                        </div>
-                    </div>
-
-                    <div class="text-end mt-4">
-                        <button type="button" class="btn btn-success px-4">Provide Availability</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
-
 </body>
 </html>

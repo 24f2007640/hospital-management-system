@@ -9,93 +9,81 @@
           rel="stylesheet" 
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
           crossorigin="anonymous">
-
 </head>
 <body>
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container-fluid">
-
-            <a class="navbar-brand" href="home.html">
+            <a class="navbar-brand" href="{{ url_for('doctor_dashboard', doctor_id=doctor.id) }}">
                 <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
                 VitalCare Hospital
             </a>
-
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarNav">
-
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="home.html">Home</a>
+                        <a class="nav-link" href="{{ url_for('doctor_dashboard', doctor_id=doctor.id) }}">Home</a>
                     </li>
-                    
-                    <!-- <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Manage Doctors</a>
-                    </li> -->
                 </ul>
-
-
                 <div class="d-flex">
-                    <a href="/logout" class="btn btn-outline-danger">Logout</a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
                 </div>
             </div>
         </div>
     </nav>
 
-<div id="main">
-    <div class="container mt-5 mb-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-10"> <div class="card shadow-sm border-dark border-2 rounded-3">
-                    <div class="card-body p-4 p-md-5">
+    <div id="main">
+        <div class="container mt-5 mb-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card shadow-sm border-dark border-2 rounded-3">
+                        <div class="card-body p-4 p-md-5">
+                            <form action="{{ url_for('update_patient_history', doctor_id=doctor.id, patient_id=patient.id) }}" method="post">
+                                <h2 class="card-title">Update Patient History</h2>
+                                <p class="card-subtitle mb-2">Patient Name: {{ patient.name }}</p>
+                                <p class="card-subtitle mb-4">Department: {{ doctor.specialty }}</p>
+                                <hr class="my-4">
 
-                        <form action="#" method="post">
-                            
-                            <h2 class="card-title">Update Patient History</h2>
-                            <p class="card-subtitle mb-2">Patient Name: [Patient Name Here]</p>
-                            <p class="card-subtitle mb-4">Department: [Department Here]</p>
-                            <hr class="my-4">
-
-                            <div class="row mb-3 g-3">
-                                <div class="col-md-6">
-                                    <label for="visitType" class="form-label">Visit Type</label>
-                                    <input type="text" class="form-control border-dark" id="visitType">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="testDone" class="form-label">Test Done</label>
-                                    <input type="text" class="form-control border-dark" id="testDone">
-                                </div>
-                            </div>
-
-                            <div class="row g-3">
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <label for="diagnosis" class="form-label">Diagnosis</label>
-                                        <textarea class="form-control border-dark" id="diagnosis" rows="4"></textarea>
+                                <div class="row mb-3 g-3">
+                                    <div class="col-md-6">
+                                        <label for="visitType" class="form-label">Visit Type</label>
+                                        <input type="text" class="form-control border-dark" id="visitType" name="visit_type">
                                     </div>
-                                    <div>
-                                        <label for="prescription" class="form-label">Prescription</label>
-                                        <textarea class="form-control border-dark" id="prescription" rows="4"></textarea>
+                                    <div class="col-md-6">
+                                        <label for="testDone" class="form-label">Test Done</label>
+                                        <input type="text" class="form-control border-dark" id="testDone" name="test_done">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="medicines" class="form-label">Medicines</label>
-                                    <textarea class="form-control border-dark font-monospace" id="medicines" rows="9"></textarea>
+
+                                <div class="row g-3">
+                                    <div class="col-md-8">
+                                        <div class="mb-3">
+                                            <label for="diagnosis" class="form-label">Diagnosis</label>
+                                            <textarea class="form-control border-dark" id="diagnosis" name="diagnosis" rows="4"></textarea>
+                                        </div>
+                                        <div>
+                                            <label for="prescription" class="form-label">Prescription</label>
+                                            <textarea class="form-control border-dark" id="prescription" name="prescription" rows="4"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="medicines" class="form-label">Medicines</label>
+                                        <textarea class="form-control border-dark font-monospace" id="medicines" name="medicines" rows="9"></textarea>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="text-end mt-4">
-                                <button type="submit" class="btn btn-success px-4">Save</button>
-                            </div>
+                                <div class="text-end mt-4">
+                                    <button type="submit" class="btn btn-success px-4">Save</button>
+                                </div>
 
-                        </form>
-                     </div>
+                            </form>
+                        </div>
                     </div>
-                 </div>
-                 </div> 
                 </div>
-             </div>
-     </body>
+            </div>
+        </div>
+    </div>
+</body>
 </html>

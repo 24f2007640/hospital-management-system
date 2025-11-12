@@ -31,6 +31,23 @@ class Doctor(db.Model):
     appointments = db.relationship('Appointment', back_populates='doctor')
     medical_records = db.relationship('MedicalRecord', back_populates='doctor')
 
+    availabilities = db.relationship('DoctorAvailability', back_populates='doctor', cascade='all, delete-orphan')
+
+class DoctorAvailability(db.Model):
+    """Stores the specific date and time slot a doctor is available."""
+    id = db.Column(db.Integer, primary_key=True)
+    
+    # The date the slot is for
+    date = db.Column(db.Date, nullable=False)
+    
+    # The time slot (e.g., '08:00 - 12:00 am', '04:00 - 09:00 pm')
+    time_slot = db.Column(db.String(50), nullable=False)
+    
+    # Foreign Key linking to the Doctor
+    doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'), nullable=False)
+    doctor = db.relationship('Doctor', back_populates='availabilities')
+
+
 
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
