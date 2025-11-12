@@ -47,3 +47,4 @@ if __name__ == "__main__": #run this app only when ivoked.
     app.run()    
 
 
+#pip install flask_sqlalchemy
