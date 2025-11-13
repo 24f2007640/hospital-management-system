@@ -16,9 +16,9 @@
    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container-fluid">
 
-            <a class="navbar-brand" href="/home">
+            <a class="navbar-brand" href="{{ url_for('manager_dashboard', **auth_params) }}">
                 <img src="/photo/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-                VitalCare Hospital
+                VitalCare Hospital 
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -28,19 +28,16 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
 
+
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/home">Home</a>
+                        <a class="nav-link" href="{{ url_for('manager_dashboard', **auth_params) }}">Dashboard</a>
                     </li>
-
-                    <!-- <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Manage Doctors</a>
-                    </li> -->
                 </ul>
 
 
                 <div class="d-flex">
-                    <a href="/logout" class="btn btn-outline-danger">Logout</a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
                 </div>
             </div>
         </div>
@@ -55,7 +52,7 @@
                     <div class="card-body p-4 p-md-5">
 
             <h4 class="card-title mb-4">Add a new Doctor</h4>
-            <form action="/manager/add_doctor" method="post">
+            <form action="{{ url_for('add_doctor', **auth_params) }}" method="post">
                 <div class="border border-secondary rounded-3 p-3 mb-4">
 
                 <h4 class="h5 mt-3 border-bottom pb-2">Login Account Details</h4>
@@ -82,7 +79,6 @@
                 
                 <div class="mb-3">
                     <label for="specialty" class="form-label">Specialization/Department</label>
-                    
                     <input type="text" class="form-control" id="specialty" name="specialty" required>
                 </div>
                 <div class="mb-3">
@@ -91,7 +87,7 @@
                 </div>
                 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                    <a href="/manager/dashboard" class="btn btn-secondary me-md-2">Cancel</a>
+                    <a href="{{ url_for('manager_dashboard', **auth_params) }}" class="btn btn-secondary me-md-2">Cancel</a>
                     <button type="submit" class="btn btn-primary">Create</button>
                 </div>
 

@@ -43,15 +43,12 @@
                     <div class="card-body p-4 p-md-5">
                         <div class="d-flex justify-content-between align-items-center border-bottom border-dark pb-3 mb-4">
                             <h4 class="mb-0">Welcome Admin {{ manager_name }}</h4>
-                            <div class="input-group w-50">
-                                <input type="text" class="form-control border-dark" placeholder="doctor, patient, department.." aria-label="Search term">
-                                <button class="btn btn-primary" type="button" id="button-search">Search</button>
-                            </div>
+
                         </div>
 
                         <h4 class="mb-3 d-flex justify-content-between align-items-center">
                             Registered Doctors
-                            <a href="{{ url_for('add_doctor') }}" class="btn btn-primary">Create</a>
+                            <a href="{{ url_for('add_doctor', **auth_params) }}" class="btn btn-primary">Create</a>
                         </h4>
 
                         <div class="list-group mb-4">
@@ -59,8 +56,8 @@
                             <div class="list-group-item d-flex justify-content-between align-items-center">
                                 <div class="w-50">{{ doctor.name }}</div>
                                 <div class="btn-group" role="group" aria-label="Doctor actions">
-                                    <a href="{{ url_for('edit_doctor_profile', doctor_id=doctor.id) }}" class="btn btn-warning">Edit</a>
-                                    <a href="{{ url_for('delete_doctor', doctor_id=doctor.id) }}" class="btn btn-danger">Delete</a>
+                                    <a href="{{ url_for('edit_doctor_profile', doctor_id=doctor.id, **auth_params) }}" class="btn btn-warning">Edit</a>
+                                    <a href="{{ url_for('delete_doctor', doctor_id=doctor.id, **auth_params) }}" class="btn btn-danger btn-sm">Delete</a>
                                 </div>
                             </div>
                             {% else %}
@@ -68,20 +65,21 @@
                             {% endfor %}
                         </div>
 
-                        <h4 class="mb-3">Registered Patients</h4>
-                        <div class="list-group mb-4">
-                            {% for patient in patients %}
-                            <div class="list-group-item d-flex justify-content-between align-items-center">
-                                <div class="w-50">{{ patient.name }}</div>
-                                <div class="btn-group" role="group" aria-label="Patient actions">
-                                    <a href="{{ url_for('edit_patient_profile', patient_id=patient.id) }}" class="btn btn-warning">Edit</a>
-                                    <a href="{{ url_for('delete_patient', patient_id=patient.id) }}" class="btn btn-danger">Delete</a>
-                                </div>
-                            </div>
-                            {% else %}
-                            <div>No registered patients found.</div>
-                            {% endfor %}
-                        </div>
+                        <h4 class="mb-3">Registered Patients</h4>
+                        <div class="list-group mb-4">
+                            {% for patient in patients %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div class="w-50">{{ patient.name }}</div>
+                                <div class="btn-group" role="group" aria-label="Patient actions">
+                                    <a href="{{ url_for('edit_patient_profile', patient_id=patient.id, **auth_params) }}" class="btn btn-warning">Edit</a>
+                                    <a href="{{ url_for('delete_patient', patient_id=patient.id, **auth_params) }}" class="btn btn-danger btn-sm">Delete</a>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div>No registered patients found.</div>
+                            {% endfor %}
+                        </div>
+
 
                         <h4 class="mb-3">Upcoming Appointments</h4>
                         <div class="table-responsive">

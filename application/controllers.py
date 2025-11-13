@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from .models import db, User, Doctor, Patient, Appointment, MedicalRecord, Billing, DoctorAvailability
 from werkzeug.exceptions import abort 
 
-# --- Utility Functions (Stateless Auth via URL Parameters) ---
+
 
 def get_auth_data(request):
     """Retrieves user_id and user_type from URL query parameters."""
@@ -92,7 +92,7 @@ def register():
 
 #---------------------------------------------Manager------------------------------------------------
 
-
+#coreect and running
 @app.route('/manager/dashboard')
 def manager_dashboard():
     user_id, user_type = get_auth_data(request)
@@ -116,6 +116,7 @@ def manager_dashboard():
         auth_params=auth_params # Passed to templates for link generation
     )
 
+#coreect and running
 @app.route('/manager/add_doctor', methods=['GET', 'POST'])
 def add_doctor():
     user_id, user_type = get_auth_data(request)
@@ -154,7 +155,7 @@ def add_doctor():
 
     return render_template("Adm_Add-New-Doctor.html", auth_params=auth_params)
 
-
+#correct and running
 @app.route('/doctor/delete/<int:doctor_id>')
 def delete_doctor(doctor_id):
     user_id, user_type = get_auth_data(request)
@@ -173,6 +174,7 @@ def delete_doctor(doctor_id):
     # Redirect with auth params
     return redirect(url_for('manager_dashboard', **auth_params))
 
+#correct and running
 @app.route('/patient/delete/<int:patient_id>')
 def delete_patient(patient_id):
     user_id, user_type = get_auth_data(request)
@@ -193,17 +195,25 @@ def delete_patient(patient_id):
     # Redirect with auth params
     return redirect(url_for('manager_dashboard', **auth_params))
 
+
+#correct and running
 @app.route('/patient/edit_profile', methods=['GET', 'POST'])
 def edit_patient_profile():
     user_id, user_type = get_auth_data(request)
-    if user_type != 'patient' or not user_id:
+    if user_type != 'manager' or not user_id:
         return redirect(url_for('login'))
     
+    # Get patient_id from query params to identify which patient to edit
+    patient_id = request.args.get('patient_id')
+    if not patient_id:
+        return "Patient ID not provided", 400
+
     auth_params = build_auth_params(user_id, user_type)
-    patient = Patient.query.filter_by(user_id=user_id).first() # Fetch patient using user_id
+    # Fetch patient by patient_id (assuming patient_id matches Patient.id or some unique id)
+    patient = Patient.query.filter_by(id=patient_id).first()
     
     if not patient:
-        return redirect(url_for('login')) 
+        return redirect(url_for('manager_dashboard'))  # or another manager page
 
     if request.method == 'POST':
         patient.name = request.form.get('name')
@@ -212,23 +222,25 @@ def edit_patient_profile():
         if patient.user:
             patient.user.email = request.form.get('email')
         db.session.commit()
-        # Redirect with auth params
-        return redirect(url_for('patient_dashboard', **auth_params))
-        
+        return redirect(url_for('manager_dashboard', **auth_params))
+    
     return render_template('Adm_Patient-profile.html', patient=patient, auth_params=auth_params)
-
 
 @app.route('/doctor/edit_profile', methods=['GET', 'POST'])
 def edit_doctor_profile():
     user_id, user_type = get_auth_data(request)
-    if user_type != 'doctor' or not user_id:
+    if user_type != 'manager' or not user_id:
         return redirect(url_for('login'))
-        
-    auth_params = build_auth_params(user_id, user_type)
-    doctor = Doctor.query.filter_by(user_id=user_id).first() # Fetch doctor using user_id
     
+    doctor_id = request.args.get('doctor_id')
+    if not doctor_id:
+        return "Doctor ID not provided", 400
+
+    auth_params = build_auth_params(user_id, user_type)
+    doctor = Doctor.query.filter_by(id=doctor_id).first()
+
     if not doctor:
-        return redirect(url_for('login'))
+        return redirect(url_for('manager_dashboard'))
 
     if request.method == 'POST':
         doctor.name = request.form.get('name')
@@ -238,10 +250,10 @@ def edit_doctor_profile():
             doctor.user.email = request.form.get('email')
         db.session.commit()
         
-        # Redirect with auth params and doctor_id
-        return redirect(url_for('doctor_dashboard', doctor_id=doctor.id, **auth_params))
-        
+        return redirect(url_for('manager_dashboard', **auth_params))
+    
     return render_template('Adm_Doctor-profile.html', doctor=doctor, auth_params=auth_params)
+
 
 
 
@@ -474,3 +486,27 @@ def view_doctor_details(doctor_id):
         'view_doctor_details.html',
         doctor=doctor
     )
+
+# @app.route('/patient/edit_profile', methods=['GET', 'POST'])
+# def edit_patient_profile():
+#     user_id, user_type = get_auth_data(request)
+#     if user_type != 'patient' or not user_id:
+#         return redirect(url_for('login'))
+    
+#     auth_params = build_auth_params(user_id, user_type)
+#     patient = Patient.query.filter_by(user_id=user_id).first() # Fetch patient using user_id
+    
+#     if not patient:
+#         return redirect(url_for('login')) 
+
+#     if request.method == 'POST':
+#         patient.name = request.form.get('name')
+#         patient.phone = request.form.get('phone')
+#         patient.address = request.form.get('city')
+#         if patient.user:
+#             patient.user.email = request.form.get('email')
+#         db.session.commit()
+#         # Redirect with auth params
+#         return redirect(url_for('patient_dashboard', **auth_params))
+        
+#     return render_template('Adm_Patient-profile.html', patient=patient, auth_params=auth_params)
