@@ -21,6 +21,7 @@ def build_auth_params(user_id, user_type):
 def home():
     return redirect(url_for('login'))
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     # session.clear() removed
@@ -261,31 +262,38 @@ def edit_doctor_profile():
 
 #----------------------------------------------Doctor------------------------------------------
 
-
+#correct and running
 @app.route('/doctor/dashboard/<int:doctor_id>')
 def doctor_dashboard(doctor_id):
     user_id, user_type = get_auth_data(request)
-    # Check if a user is logged in AND is the correct doctor
     if user_type != 'doctor' or not user_id: 
          return redirect(url_for('login'))
 
     auth_params = build_auth_params(user_id, user_type)
     doctor = Doctor.query.get_or_404(doctor_id)
     
-    appointments = Appointment.query.filter_by(doctor_id=doctor.id, status='pending').all()
+    appointments = Appointment.query.filter_by(doctor_id=doctor.id, status='pending') \
+                    .order_by(Appointment.appt_date.asc()).all()
+    
     patients = Patient.query.join(Appointment).filter(Appointment.doctor_id == doctor.id).distinct().all()
+
     return render_template('Doc_Welcome-doc.html', doctor=doctor, appointments=appointments, patients=patients, auth_params=auth_params)
 
-
+#correct and running
 @app.route('/doctor/availability/<int:doctor_id>', methods=['GET', 'POST'])
-def doctor_availabilble(doctor_id): # ROUTE NAME KEPT: doctor_availabilble
-    user_id, user_type = get_auth_data(request)
-    if user_type != 'doctor' or not user_id: 
-         return redirect(url_for('login'))
+def doctor_availability(doctor_id):
+    if request.method == 'POST':
+        user_id = request.form.get('user_id')
+        user_type = request.form.get('user_type')
+    else:
+        user_id, user_type = get_auth_data(request)
+        
+    if user_type != 'doctor' or not user_id:
+        return redirect(url_for('login'))
 
     auth_params = build_auth_params(user_id, user_type)
     doctor = Doctor.query.get_or_404(doctor_id)
-    
+
     today = datetime.today().date()
     possible_dates = [today + timedelta(days=i) for i in range(7)]
     possible_slots = ["08:00 - 12:00 am", "04:00 - 9:00 pm"]
@@ -295,7 +303,6 @@ def doctor_availabilble(doctor_id): # ROUTE NAME KEPT: doctor_availabilble
             DoctorAvailability.doctor_id == doctor.id,
             DoctorAvailability.date.in_(possible_dates)
         ).delete(synchronize_session=False)
-
         selected = request.form.getlist('availabilities')
         for sel in selected:
             date_str, slot = sel.split('|')
@@ -303,8 +310,7 @@ def doctor_availabilble(doctor_id): # ROUTE NAME KEPT: doctor_availabilble
             new_avail = DoctorAvailability(date=date, time_slot=slot, doctor_id=doctor.id)
             db.session.add(new_avail)
         db.session.commit()
-        # Redirect with auth params
-        return redirect(url_for('doctor_availabilble', doctor_id=doctor_id, **auth_params))
+        return redirect(url_for('doctor_availability', doctor_id=doctor_id, **auth_params))
 
     availabilities = DoctorAvailability.query.filter_by(doctor_id=doctor.id).all()
     avail_map = {(a.date, a.time_slot) for a in availabilities}
@@ -312,30 +318,51 @@ def doctor_availabilble(doctor_id): # ROUTE NAME KEPT: doctor_availabilble
     for dt in possible_dates:
         selected = [slot for slot in possible_slots if (dt, slot) in avail_map]
         date_slots.append({'date': dt, 'slots': possible_slots, 'selected': selected})
+
     return render_template('doc_docs-avail-Doc.html', doctor=doctor, date_slots=date_slots, auth_params=auth_params)
 
 
+#correct and running not tested for upcoming appointment
 @app.route('/doctor/update_history/<int:doctor_id>/<int:patient_id>', methods=['GET', 'POST'])
 def update_patient_history(doctor_id, patient_id):
     user_id, user_type = get_auth_data(request)
     if user_type != 'doctor' or not user_id: 
-         return redirect(url_for('login'))
-         
+        return redirect(url_for('login'))
+        
     auth_params = build_auth_params(user_id, user_type)
-    
     patient = Patient.query.get_or_404(patient_id)
     doctor = Doctor.query.get_or_404(doctor_id)
+
+    record = MedicalRecord.query.filter_by(patient_id=patient.id, doctor_id=doctor.id).order_by(MedicalRecord.id.desc()).first()
+
     if request.method == 'POST':
+        visit_type = request.form.get('visit_type')
+        test_done = request.form.get('test_done')
         diagnosis = request.form.get('diagnosis')
         treatment = request.form.get('medicines')
         notes = request.form.get('prescription')
-        record = MedicalRecord(
-            diagnosis=diagnosis,treatment=treatment,notes=notes,patient_id=patient.id,doctor_id=doctor.id)
-        db.session.add(record)
+
+        if record:
+            record.visit_type = visit_type
+            record.test_done = test_done
+            record.diagnosis = diagnosis
+            record.treatment = treatment
+            record.notes = notes
+        else:
+            record = MedicalRecord(
+                visit_type=visit_type,
+                test_done=test_done,
+                diagnosis=diagnosis,
+                treatment=treatment,
+                notes=notes,
+                patient_id=patient.id,
+                doctor_id=doctor.id
+            )
+            db.session.add(record)
         db.session.commit()
-        # Redirect with auth params
         return redirect(url_for('doctor_dashboard', doctor_id=doctor_id, **auth_params))
-    return render_template('Doc_Update-Pat-Hist.html', patient=patient, doctor=doctor, auth_params=auth_params)
+    return render_template('Doc_Update-Pat-Hist.html', patient=patient, doctor=doctor, auth_params=auth_params, record=record)
+
 
 @app.route('/doctor/appointment/complete/<int:appt_id>')
 def complete_appointment(appt_id):
@@ -373,17 +400,30 @@ def cancel_appointment(appt_id):
 def patient_dashboard():
     user_id, user_type = get_auth_data(request)
     if user_type != 'patient' or not user_id: 
-         return redirect(url_for('login'))
-         
+        return redirect(url_for('login'))
+        
     auth_params = build_auth_params(user_id, user_type)
     
-    patient = Patient.query.filter_by(user_id=user_id).first() # Fetch patient using user_id
+    patient = Patient.query.get(user_id)
     if not patient:
-        return redirect(url_for('login')) 
-        
+        return redirect(url_for('login'))
+
+    
     departments = ["Cardiology", "Oncology", "General"]
-    appointments = Appointment.query.filter_by(patient_id=patient.id).join(Doctor).all()
-    return render_template('pat_welcome.html', patient=patient, departments=departments, appointments=appointments, auth_params=auth_params)
+
+    
+    appointments = Appointment.query \
+        .filter_by(patient_id=patient.id, status="pending") \
+        .join(Doctor) \
+        .order_by(Appointment.appt_date.asc()) \
+        .all()
+
+    return render_template('pat_welcome.html',
+                           patient=patient,
+                           departments=departments,
+                           appointments=appointments,
+                           auth_params=auth_params)
+
 
 @app.route('/patient/history/<int:patient_id>/<int:doctor_id>')
 def patient_history(patient_id, doctor_id):
@@ -403,7 +443,7 @@ def doctor_details(doctor_id):
 
 
 @app.route('/patient/doctor/availability/<int:doctor_id>', methods=['GET', 'POST'])
-def doctor_availability(doctor_id): # ROUTE NAME KEPT: doctor_availability
+def doctor_available(doctor_id): # ROUTE NAME KEPT: doctor_availability
     doctor = Doctor.query.get_or_404(doctor_id)
     today = datetime.today().date()
     possible_dates = [today + timedelta(days=i) for i in range(7)]

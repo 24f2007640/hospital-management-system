@@ -90,6 +90,8 @@ class MedicalRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     diagnosis = db.Column(db.Text, nullable=False)
     treatment = db.Column(db.Text)
+    visit_type = db.Column(db.String(100))
+    test_done = db.Column(db.String(255))
     notes = db.Column(db.Text)
     record_date = db.Column(db.Date, nullable=False, default=datetime.utcnow)
     

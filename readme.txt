@@ -11,3 +11,18 @@ Its main benefit is that if you change the route in your Python code (e.g., from
 
 
 <a href="{{ url_for('add_doctor', **auth_params) }}" class="btn btn-primary">Create</a>
+
+
+
+ALTER TABLE medical_record ADD COLUMN visit_type VARCHAR(100);
+ALTER TABLE medical_record ADD COLUMN test_done VARCHAR(255);
+
+INSERT INTO appointment (reason, appt_date, status, patient_id, doctor_id) 
+VALUES ('Follow-up', '2025-12-01 10:00:00', 'pending', 1, 1);
+
+DELETE FROM appointment WHERE id = 1;
+
+
+DELETE FROM appointment;
+DELETE FROM sqlite_sequence WHERE name='appointment';
+
