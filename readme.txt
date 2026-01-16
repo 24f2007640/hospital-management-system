@@ -26,3 +26,10 @@ DELETE FROM appointment WHERE id = 1;
 DELETE FROM appointment;
 DELETE FROM sqlite_sequence WHERE name='appointment';
 
+
+#Dtae : 16/01/2026
+How to assigned patient to doctor
+
+
+Install Flask-Migrate with pip install Flask-Migrate to enable Alembic-based database migrations for your Flask-SQLAlchemy app. This handles schema changes like adding the time_slot column without dropping tables.
+

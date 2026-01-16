@@ -1,0 +1,16 @@
+Init: flask db init
+Migrate model changes: flask db migrate -m "Add time_slot to Appointment"
+Upgrade: flask db upgrade
+
+
+PS> py -m pip install flask flask-migrate
+PS> py -m flask --version
+PS> set FLASK_APP=app.py
+PS> py -m flask db init
+
+Future Changes
+For any model updates (new columns, etc.):
+
+python -m flask db migrate -m "description"
+
+python -m flask db upgrade

@@ -43,9 +43,17 @@ def login():
             elif this_user.type == "doctor":
                 # Passing doctor_id and auth data via URL
                 return redirect(url_for('doctor_dashboard', doctor_id=this_user.doctor_profile.id, **auth_params))
+            
+
             elif this_user.type == "patient":
-                # Passing auth data via URL
+                patient = Patient.query.filter_by(user_id=this_user.id).first()
+            if not patient:
+                message = "Patient profile not found"
+            else:
+                # Pass patient.id as user_id - matches dashboard expectation
+                auth_params = build_auth_params(patient.id, 'patient')
                 return redirect(url_for('patient_dashboard', **auth_params))
+
         else:
             message = "Invalid username or password"
 
@@ -404,7 +412,8 @@ def patient_dashboard():
         
     auth_params = build_auth_params(user_id, user_type)
     
-    patient = Patient.query.get(user_id)
+    patient = Patient.query.get_or_404(user_id)
+
     if not patient:
         return redirect(url_for('login'))
 
@@ -418,11 +427,17 @@ def patient_dashboard():
         .order_by(Appointment.appt_date.asc()) \
         .all()
 
-    return render_template('pat_welcome.html',
-                           patient=patient,
-                           departments=departments,
-                           appointments=appointments,
-                           auth_params=auth_params)
+    return render_template('Pat_welcome.html',
+    patient=patient, appointments=appointments, departments=departments,
+    auth_params=auth_params,  # already passed
+    patient_id=patient.id,
+    cancel_endpoint='cancel_appointment'  # or your actual endpoint name
+)
+
+
+
+
+
 
 
 @app.route('/patient/history/<int:patient_id>/<int:doctor_id>')
@@ -527,26 +542,37 @@ def view_doctor_details(doctor_id):
         doctor=doctor
     )
 
-# @app.route('/patient/edit_profile', methods=['GET', 'POST'])
-# def edit_patient_profile():
-#     user_id, user_type = get_auth_data(request)
-#     if user_type != 'patient' or not user_id:
-#         return redirect(url_for('login'))
-    
-#     auth_params = build_auth_params(user_id, user_type)
-#     patient = Patient.query.filter_by(user_id=user_id).first() # Fetch patient using user_id
-    
-#     if not patient:
-#         return redirect(url_for('login')) 
 
-#     if request.method == 'POST':
-#         patient.name = request.form.get('name')
-#         patient.phone = request.form.get('phone')
-#         patient.address = request.form.get('city')
-#         if patient.user:
-#             patient.user.email = request.form.get('email')
-#         db.session.commit()
-#         # Redirect with auth params
-#         return redirect(url_for('patient_dashboard', **auth_params))
+#new update on 16/01/26
+@app.route('/department/<string:department_name>')
+def department_overview(department_name):
+    return redirect(url_for('patient_history', patient_id=patient.id, doctor_id=0, dept=department_name))
+
+def get_current_patient():
+    from flask import session
+    user_id = session.get('user_id')
+    if not user_id:
+        return None
+    from application.models import Patient
+    return Patient.query.get(user_id)  # Assumes patient.id == user_id
+
+@app.route('/patient/profile/edit/<int:patient_id>', methods=['GET', 'POST'])
+def patient_edit_profile(patient_id):
+    patient = Patient.query.get_or_404(patient_id)
+    
+    if request.method == 'POST':
+        patient.name = request.form.get('name', patient.name)
+        patient.phone = request.form.get('phone', patient.phone)
+        patient.address = request.form.get('address', patient.address)
+        dob_str = request.form.get('dob')
+        if dob_str:
+            from datetime import datetime
+            patient.dob = datetime.strptime(dob_str, '%Y-%m-%d').date()
         
-#     return render_template('Adm_Patient-profile.html', patient=patient, auth_params=auth_params)
+        db.session.commit()
+        return redirect(url_for('patient_dashboard', patient_id=patient.id))
+    
+    return render_template('Pat_Edit-Profile.html', patient=patient)  # Your exact filename
+
+
+
