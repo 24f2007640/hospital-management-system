@@ -13,7 +13,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url_for('patient_dashboard') }}">
+            <a class="navbar-brand" href="{{ url_for('patient_dashboard', user_id=request.args.get('user_id'), user_type=request.args.get('user_type')) }}">
                 <img src="/static/hospital_logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
                 VitalCare Hospital
             </a>
@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('patient_dashboard') }}">Home</a>
+                        <a class="nav-link" href="{{ url_for('patient_dashboard', user_id=request.args.get('user_id'), user_type=request.args.get('user_type')) }}">Home</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -39,12 +39,14 @@
                     <div class="card-body p-4 p-md-5">
                         <div class="border-bottom border-dark pb-3 mb-4">
                             <h4 class="mb-0">Edit Profile</h4>
-                            <a href="{{ url_for('patient_dashboard') }}" class="btn btn-link px-0">← Back to Dashboard</a>
+                            <a href="{{ url_for('patient_dashboard', user_id=request.args.get('user_id'), user_type=request.args.get('user_type')) }}" class="btn btn-link px-0">← Back to Dashboard</a>
                         </div>
                         <form method="POST" action="{{ url_for('patient_edit_profile', patient_id=patient.id) }}">
-
-
+                            <!-- AUTH HIDDEN FIELDS - FIXES LOGIN REDIRECT -->
+                            <input type="hidden" name="user_id" value="{{ request.args.get('user_id') }}">
+                            <input type="hidden" name="user_type" value="{{ request.args.get('user_type') }}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() if csrf_token else '' }}">
+                            
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
@@ -77,7 +79,7 @@
                             </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <button type="submit" class="btn btn-primary me-md-2">Update Profile</button>
-                                <a href="{{ url_for('patient_dashboard') }}" class="btn btn-outline-secondary">Cancel</a>
+                                <a href="{{ url_for('patient_dashboard', user_id=request.args.get('user_id'), user_type=request.args.get('user_type')) }}" class="btn btn-outline-secondary">Cancel</a>
                             </div>
                         </form>
                         {% with messages = get_flashed_messages(with_categories=true) %}

@@ -403,23 +403,25 @@ def cancel_appointment(appt_id):
 
 
 #------------------------------------------------------Patient--------------------------------------
-
 @app.route('/patient/dashboard')
-def patient_dashboard():
+@app.route('/patient/dashboard/<int:patient_id>')
+def patient_dashboard(patient_id=None):
     user_id, user_type = get_auth_data(request)
     if user_type != 'patient' or not user_id: 
         return redirect(url_for('login'))
-        
+    
     auth_params = build_auth_params(user_id, user_type)
     
-    patient = Patient.query.get_or_404(user_id)
+    # Use patient_id from URL or fallback to user_id
+    if patient_id is None:
+        patient = Patient.query.get_or_404(user_id)
+    else:
+        patient = Patient.query.get_or_404(patient_id)
 
     if not patient:
         return redirect(url_for('login'))
 
-    
     departments = ["Cardiology", "Oncology", "General"]
-
     
     appointments = Appointment.query \
         .filter_by(patient_id=patient.id, status="pending") \
@@ -428,11 +430,12 @@ def patient_dashboard():
         .all()
 
     return render_template('Pat_welcome.html',
-    patient=patient, appointments=appointments, departments=departments,
-    auth_params=auth_params,  # already passed
-    patient_id=patient.id,
-    cancel_endpoint='cancel_appointment'  # or your actual endpoint name
-)
+        patient=patient, appointments=appointments, departments=departments,
+        auth_params=auth_params,
+        patient_id=patient.id,
+        cancel_endpoint='cancel_appointment'
+    )
+
 
 
 
@@ -558,6 +561,15 @@ def get_current_patient():
 
 @app.route('/patient/profile/edit/<int:patient_id>', methods=['GET', 'POST'])
 def patient_edit_profile(patient_id):
+    # Auth check - read from args OR form
+    user_id, user_type = get_auth_data(request)
+    if request.method == 'POST':
+        user_id = request.form.get('user_id') or user_id
+        user_type = request.form.get('user_type') or user_type
+    
+    if user_type != 'patient' or not user_id: 
+        return redirect(url_for('login'))
+    
     patient = Patient.query.get_or_404(patient_id)
     
     if request.method == 'POST':
@@ -570,9 +582,14 @@ def patient_edit_profile(patient_id):
             patient.dob = datetime.strptime(dob_str, '%Y-%m-%d').date()
         
         db.session.commit()
-        return redirect(url_for('patient_dashboard', patient_id=patient.id))
+        # Pass auth + patient_id to dashboard
+        return redirect(url_for('patient_dashboard', 
+                               patient_id=patient.id, 
+                               user_id=user_id, 
+                               user_type=user_type))
     
-    return render_template('Pat_Edit-Profile.html', patient=patient)  # Your exact filename
+    return render_template('Pat_Edit-Profile.html', patient=patient)
+
 
 
 

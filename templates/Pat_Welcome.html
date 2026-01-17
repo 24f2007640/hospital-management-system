@@ -13,21 +13,21 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url_for('patient_dashboard', patient_id=patient_id) }}">
+            <a class="navbar-brand" href="{{ url_for('patient_dashboard', user_id=auth_params.user_id, user_type=auth_params.user_type, patient_id=patient_id) }}">
                 <img src="{{ url_for('static', filename='hospital_logo.png') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
                 VitalCare Hospital
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('patient_dashboard', patient_id=patient_id) }}">Home</a>
+                        <a class="nav-link" href="{{ url_for('patient_dashboard', user_id=auth_params.user_id, user_type=auth_params.user_type, patient_id=patient_id) }}">Home</a>
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <a href="{{ url_for('patient_dashboard', patient_id=patient_id) }}" class="btn btn-outline-secondary">Dashboard</a>
+                    <a href="{{ url_for('patient_dashboard', user_id=auth_params.user_id, user_type=auth_params.user_type, patient_id=patient_id) }}" class="btn btn-outline-secondary">Dashboard</a>
                 </div>
             </div>
         </div>
@@ -40,8 +40,9 @@
                         <div class="border-bottom border-dark pb-3 mb-4">
                             <h4 class="mb-0">Welcome {{ patient.name }}</h4>
                             <div class="mt-2">
-                                <a href="{{ url_for('patient_edit_profile', patient_id=patient_id) }}" class="btn btn-primary">Edit Profile</a>
-                                <a href="{{ url_for('patient_history', patient_id=patient_id, doctor_id=0) }}" class="btn btn-link px-0">History</a>
+                                <a href="{{ url_for('patient_edit_profile', patient_id=patient.id, user_id=auth_params.user_id, user_type=auth_params.user_type) }}" class="btn btn-primary">
+                                    Edit Profile
+                                </a>
                             </div>
                         </div>
                         <h4 class="mb-3">Departments</h4>
@@ -49,10 +50,9 @@
                             {% for dept in departments %}
                             <div class="list-group-item d-flex justify-content-between align-items-center">
                                 {{ dept }}
-                                <a href="{{ url_for('department_overview', department_name=dept.lower(), patient_id=patient_id) }}" class="btn btn-outline-primary btn-sm">View Details</a>
+                                <a href="{{ url_for('department_overview', department_name=dept.lower(), user_id=auth_params.user_id, user_type=auth_params.user_type, patient_id=patient_id) }}" class="btn btn-outline-primary btn-sm">View Details</a>
                             </div>
                             {% endfor %}
-
                         </div>
                         <h4 class="mb-3">Upcoming Appointments</h4>
                         <div class="table-responsive mb-4">
@@ -89,8 +89,8 @@
                                         <td>{{ appt.time_slot or 'N/A' }}</td>
                                         <td class="text-end">
                                             {% if cancel_endpoint %}
-                                                <a href="{{ url_for(cancel_endpoint, appt_id=appt.id, patient_id=patient_id) }}" 
-   class="btn btn-outline-danger btn-sm">Cancel</a>
+                                                <a href="{{ url_for(cancel_endpoint, appt_id=appt.id, patient_id=patient_id, user_id=auth_params.user_id, user_type=auth_params.user_type) }}" 
+                                                   class="btn btn-outline-danger btn-sm">Cancel</a>
                                             {% else %}
                                                 <span class="text-muted small">Cancel not available</span>
                                             {% endif %}
